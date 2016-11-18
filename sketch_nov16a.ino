@@ -45,16 +45,16 @@ bool rpiFlagProblem = false;
 // Time oriented functions
 
 void rpiFlagProblemMode() {
-  if (~systemIsUp) {
-    rpiFlagProblem = true;
-    pl.setState(LED_ON);
-  }
+  if (systemIsUp == false) rpiFlagProblem = true;
+  pl.setState(LED_ON);
 }
 
 void turnPowerSupplyOff() {
   pl.setState(LED_OFF);
   RPI_SHUTDOWN_REQUEST_CLEAR;
   POWER_SUPPLY_OFF;
+  
+  systemIsUp = false;
   systemTurnedOn = false;
   rpiFlagProblem = false;
 }
@@ -70,7 +70,10 @@ void turnedOn() {
     pl.setState(LED_BLINKING);
     RPI_SHUTDOWN_REQUEST_CLEAR;
     POWER_SUPPLY_ON;
+
+    systemIsUp = false;
     systemTurnedOn = true;
+    rpiFlagProblem = false;
 
     st.setTimeout(RPI_FAILURE_TIMEOUT_MINUTES, &rpiFlagProblemMode);
   }
@@ -78,7 +81,9 @@ void turnedOn() {
 
 void rpiUp() {
   if (systemTurnedOn) pl.setState(LED_ON);
-  systemIsUp = true;
+
+    systemIsUp = true;
+    rpiFlagProblem = false;
 }
 
 void turnedOff() {
@@ -87,8 +92,7 @@ void turnedOff() {
     pl.setState(LED_BLINKING);
     RPI_SHUTDOWN_REQUEST;
     systemTurnedOn = false;
-
-    if (rpiFlagProblem) turnPowerSupplyOff();
+    if (rpiFlagProblem == true) turnPowerSupplyOff();
   }
 }
 
@@ -102,7 +106,8 @@ void rpiDown() {
 
 void setup() {
   pl = Powerled(OUT_LED);
-
+  
+  // set callback functions
   hw.setFunctionTurnedOff(&turnedOff);
   hw.setFunctionTurnedOn(&turnedOn);
   hw.setRpiGoDown(&rpiDown);
