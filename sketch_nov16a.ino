@@ -45,8 +45,11 @@ bool rpiFlagProblem = false;
 // Time oriented functions
 
 void rpiFlagProblemMode() {
-  if (systemIsUp == false) rpiFlagProblem = true;
-  pl.setState(LED_ON);
+  if (systemIsUp == false && systemTurnedOn == true) {
+    rpiFlagProblem = true;
+    pl.setState(LED_ON);
+  }
+  
 }
 
 void turnPowerSupplyOff() {
@@ -61,7 +64,7 @@ void turnPowerSupplyOff() {
 
 // External oriented events function
 
-#define RPI_FAILURE_TIMEOUT_MINUTES     600000L   // defined for 10 minutes
+#define RPI_FAILURE_TIMEOUT_MINUTES     180000L   // defined for 3 minutes
 #define AFTER_RPI_SHUTDOWN_POWEROFF_MS  8000      // 8 secounds little wait until power off
 
 void turnedOn() {
