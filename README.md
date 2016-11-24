@@ -5,7 +5,7 @@ RpiPowerController
 * With this sources you can build a power manager for Raspberry Pi boards.
 
 ### RaspberryPi Setup
-* This device has to be used with PowerBlock installed in the Raspberry side. This sources controls shutdown command and inform the PowerController when linux is started throught 2 raspberry GPIO pins.To install it in your Raspberry Pi execute the following commands on bash.
+* This device has to be used with PowerBlock installed in the Raspberry side. This sources controls shutdown command and inform the PowerController device when Linux is already started through two Raspberry GPIO pins. To install it in your Raspberry Pi execute the following commands on Raspi bash.
 
 #### Bash Commands
       $ sudo apt-get update
