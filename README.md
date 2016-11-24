@@ -15,7 +15,7 @@ RpiPowerController
 
 #### Bash Commands
       $ sudo apt-get update
-      $ sudo apt-get upgrade -y</code>
+      $ sudo apt-get upgrade -y
       $ sudo apt-get install -y 
       $ git cmake g++-4.9
 
