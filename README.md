@@ -31,11 +31,9 @@ Vagner Panarello <<vpanarello@gmail.com>>
 
 ### Contribute
 
-Send comments, suggestions and bug reports to:
+* Send comments, suggestions and bug reports to:
+https://github.com/vpanarello/RpiPowerController/issues
 
-https://github.com/vpanarello/SaturnUSB/issues
-
-Or fork the code on github:
-
-https://github.com/vpanarello/SaturnUSB
+* Or fork the code on github:
+https://github.com/vpanarello/RpiPowerController
 
