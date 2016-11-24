@@ -17,7 +17,7 @@ RpiPowerController
       $ sudo apt-get update
       $ sudo apt-get upgrade -y</code>
       $ sudo apt-get install -y 
-      $ git cmake g++-4.9</code>
+      $ git cmake g++-4.9
 
       $ git clone git://github.com/petrockblog/PowerBlock.git
       $ cd PowerBlock
