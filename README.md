@@ -43,7 +43,7 @@ This device was build over an Atmel AtTiny85 microcontroller. Programmed using a
 
 ### Schematics
 
-![alt tag](https://raw.githubusercontent.com/vpanarello/RpiPowerController/master/img/powerModule_schematic.png)
+![alt tag](https://raw.githubusercontent.com/vpanarello/RpiPowerController/master/img/powerModule_schematic_v2.png)
 
 ### Part list
 
