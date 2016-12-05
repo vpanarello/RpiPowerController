@@ -29,8 +29,11 @@
 #include "interface.h"
 #include "SimpleTimer.h"
 
-
 #define OUT_LED 1
+
+#define RPI_FAILURE_TIMEOUT_MINUTES     180000L   // defined for 3 minutes
+#define AFTER_RPI_SHUTDOWN_POWEROFF_MS  8000      // 8 secounds little wait until power off
+#define RE_TURN_ON_TIME_MS              3000      // 3 secounds wait to re turnon when the power switch was let "on" state when device was shutting down
 
 Powerled pl;
 Interface hw;
@@ -38,73 +41,73 @@ SimpleTimer st;
 
 bool systemIsUp = false;
 bool systemTurnedOn = false;
-bool rpiFlagProblem = false;
+bool rpiBootUpDetectionFailure = false;
 
 
+// External oriented events function
 
-// Time oriented functions
-
-void rpiFlagProblemMode() {
+void rpiBootTimeOut() {
   if (systemIsUp == false && systemTurnedOn == true) {
-    rpiFlagProblem = true;
+    rpiBootUpDetectionFailure = true;
+    systemIsUp = true;
+    pl.setState(LED_ON);
+  }  
+}
+
+void turnedOn() {
+  if ( ~systemTurnedOn ) {
+    
+    systemTurnedOn = true;
+    
+    pl.setFrequency(LED_CYCLE_1S);
+    pl.setState(LED_BLINKING);
+    RPI_SHUTDOWN_REQUEST_CLEAR;
+    POWER_SUPPLY_ON;
+    
+    st.setTimeout(RPI_FAILURE_TIMEOUT_MINUTES, &rpiBootTimeOut);
+  }
+}
+
+void turnedOff() {
+  if ( systemTurnedOn ) {
+    
+    systemTurnedOn = false;
+    
+    pl.setFrequency(LED_CYCLE_256MS);
+    pl.setState(LED_BLINKING);
+    RPI_SHUTDOWN_REQUEST;
+    if (rpiBootUpDetectionFailure == true) turnPowerSupplyOff();
+  }
+}
+
+void rpiUp() {
+  if (systemTurnedOn == true && systemIsUp == false) {
+    systemIsUp = true;
+    rpiBootUpDetectionFailure = false;
     pl.setState(LED_ON);
   }
-  
 }
 
 void turnPowerSupplyOff() {
   pl.setState(LED_OFF);
   RPI_SHUTDOWN_REQUEST_CLEAR;
   POWER_SUPPLY_OFF;
-  
   systemIsUp = false;
-  systemTurnedOn = false;
-  rpiFlagProblem = false;
-}
-
-// External oriented events function
-
-#define RPI_FAILURE_TIMEOUT_MINUTES     180000L   // defined for 3 minutes
-#define AFTER_RPI_SHUTDOWN_POWEROFF_MS  8000      // 8 secounds little wait until power off
-
-void turnedOn() {
-  if ( ~systemTurnedOn ) {
-    pl.setFrequency(LED_CYCLE_1S);
-    pl.setState(LED_BLINKING);
-    RPI_SHUTDOWN_REQUEST_CLEAR;
-    POWER_SUPPLY_ON;
-
-    systemIsUp = false;
-    systemTurnedOn = true;
-    rpiFlagProblem = false;
-
-    st.setTimeout(RPI_FAILURE_TIMEOUT_MINUTES, &rpiFlagProblemMode);
-  }
-}
-
-void rpiUp() {
-  if (systemTurnedOn) pl.setState(LED_ON);
-
-    systemIsUp = true;
-    rpiFlagProblem = false;
-}
-
-void turnedOff() {
-  if ( systemTurnedOn ) {
-    pl.setFrequency(LED_CYCLE_256MS);
-    pl.setState(LED_BLINKING);
-    RPI_SHUTDOWN_REQUEST;
+  rpiBootUpDetectionFailure = false;
+  
+  if (systemTurnedOn == true) {
     systemTurnedOn = false;
-    if (rpiFlagProblem == true) turnPowerSupplyOff();
+    st.setTimeout(RE_TURN_ON_TIME_MS, &turnedOn);
   }
 }
 
 void rpiDown() {
-  if ( systemIsUp ) {
     systemIsUp = false;
     st.setTimeout(AFTER_RPI_SHUTDOWN_POWEROFF_MS, &turnPowerSupplyOff);
-  }
 }
+
+
+
 
 
 void setup() {
