@@ -2,16 +2,31 @@ RpiPowerController
 ==
 
 ### Description
-* With this sources you can build a power manager for Raspberry Pi boards. This device was build over an Atmel AtTiny85 microcontroller. Programmed using an Arduino Uno acting as ISP programmer. All code was developed using Arduino native IDE.
 
-### Programming AtTiny with an Arduino Uno
+* With this sources you can build a power manager for Raspberry Pi boards. This device provide adicional control over Raspberry Pi power supply. On-Off switch when turned off invoke a shutdown command from linux before turning off power supply avoiding RPI file system to be corrupted.
+This device was build over an Atmel AtTiny85 microcontroller. Programmed using an Arduino Uno acting as ISP programmer. All code was developed using Arduino native IDE. The link bellow demonstrats this device working.
 
-* The folling tutorials teach how to programming an atTiny microcontroller just adjusting your Arduino IDE and uploading a ISP sketch to yout Arduino board connecting some pins between Arduino board and atTiny microcontroller.
+- https://youtu.be/1K5IrAtzlaw
+
+### Programming Microcontroller AtTiny with an Arduino Uno as ISP Programmer
+
+* First of all clone this repository in your computer and using your Arduino IDE (my version was 1.6.5) open the file "sketch_nov16a.ino". All other parallel classes you be load toghether.
+
+* Second, you have to configure you IDE to compile and flash the specific attiny85 microcontroller. In the tools menu you have to set the board as "ATtiny25/45/85", processor as ATtiny85, clock as 1MHz and programmer as "Arduino as ISP". This sources were tested using an atTiny85 running 1MHz without an external cristal oscilator. It is normal atTinys factory configuration. I recommend to use this configuration, otherwise you have to change it in the ATtiny85 fuse configurations.
+
+* I stronghly recomend you to follow tutorial below to do this. There are a lot of additional information that will teach you to do this correctly.
 
 - http://highlowtech.org/?p=1706
+- https://www.youtube.com/watch?v=_ZL-YNOH_jA
+
+* Third, Later the sources are already cloned, the IDE configured and your Arduino Uno is ready and connected to your ATtiny85 microcontroller. You can compile the sources and flash it into ATtiny. After this the microcontroller can be attached in the rest of circuit.
+
 
 ### RaspberryPi Setup
-* This device has to be used with PowerBlock installed in the Raspberry side. This sources controls shutdown command and inform the PowerController device when Linux is already started through two Raspberry GPIO pins. To install it in your Raspberry Pi execute the following commands on Raspi bash.
+
+* This device has to be used with PowerBlock installed in the Raspberry side. The sources running on Raspberry Pi side were developed by third parties and adicional information can be find direct in the repository "https://github.com/petrockblog/PowerBlock"
+
+* This sources controls shutdown command and inform the PowerController device when Linux is already started through two Raspberry GPIO pins. To install it in your Raspberry Pi execute the following commands on Raspi bash.
 
 #### Bash Commands
       $ sudo apt-get update
@@ -25,9 +40,37 @@ RpiPowerController
       $ sudo make install
       $ sudo make installservice
 
+
 ### Schematics
 
 ![alt tag](https://raw.githubusercontent.com/vpanarello/RpiPowerController/master/img/powerModule_schematic.png)
+
+### Part list
+
+* 1 - atTiny85 microcontroller
+* 1 - IC 78L05 - 5V voltage regulator (TO-92)
+* 1 - LM2596 Step Down Power Module DC-DC http://www.instructables.com/id/The-Introduction-of-LM2596-Step-Down-Power-Module-/
+
+* 2 - BC548 - NPN Transistors
+
+* 1 - LED
+
+* 1 - 10uF > 25V
+* 1 - 1uF > 16V
+* 1 - 100nF
+
+* 1- 100 Kohm
+* 1 - 47 Kohm
+* 1 - 14 Kohm
+* 2 - 10 Kohm
+* 1 - 5 Kohm
+* 1 - 4.7 Kohm
+* 1 - 3.3 Kohm
+* 1 - 220 ohm
+
+### Assembly
+
+* BE CAREFUL - The power module output have to be connect direct in the 5V and GND Pins of Raspberry GPIO. Before connect it you have to adjust the module output to get voltage of 5V. I recommend to put some hot glue in module trimmer pot to avoid over voltage accidents. You also have to pay attention of the correct pins of Raspberry Pi. Due 3.3V Raspberry logic levels, making a wrong pin connection can permanently damage your Raspberry Pi.
 
 
 ### Author
