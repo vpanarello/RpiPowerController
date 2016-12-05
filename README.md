@@ -10,11 +10,11 @@ This device was build over an Atmel AtTiny85 microcontroller. Programmed using a
 
 ### Programming Microcontroller AtTiny with an Arduino Uno as ISP Programmer
 
-* First of all clone this repository in your computer and using your Arduino IDE (my version was 1.6.5) open the file "sketch_nov16a.ino". All other parallel classes you be load toghether.
+* First of all clone this repository in your computer and using your Arduino IDE (my version was 1.6.5) open the file "sketch_nov16a.ino". All other parallel classes you be load together.
 
-* Second, you have to configure you IDE to compile and flash the specific attiny85 microcontroller. In the tools menu you have to set the board as "ATtiny25/45/85", processor as ATtiny85, clock as 1MHz and programmer as "Arduino as ISP". This sources were tested using an atTiny85 running 1MHz without an external cristal oscilator. It is normal atTinys factory configuration. I recommend to use this configuration, otherwise you have to change it in the ATtiny85 fuse configurations.
+* Second, you have to configure your IDE, compile and flash it into an attiny85 microcontroller. In the tools menu of IDE you have to set the board as "ATtiny25/45/85", processor as ATtiny85, clock as 1MHz and programmer as "Arduino as ISP". This sources were tested using an atTiny85 running 1MHz without an external cristal oscilator. It is normal atTinys factory configuration. I recommend to use there configurations. If you have another config, you must change it in the ATtiny85 fuses configurations.
 
-* I stronghly recomend you to follow tutorial below to do this. There are a lot of additional information that will teach you to do this correctly.
+* I stronghly recomend you to follow tutorial below. There are a lot of additional information that will teach you to do this correctly.
 
 - http://highlowtech.org/?p=1706
 - https://www.youtube.com/watch?v=_ZL-YNOH_jA
@@ -24,9 +24,9 @@ This device was build over an Atmel AtTiny85 microcontroller. Programmed using a
 
 ### RaspberryPi Setup
 
-* This device has to be used with PowerBlock installed in the Raspberry side. The sources running on Raspberry Pi side were developed by third parties and adicional information can be find direct in the repository "https://github.com/petrockblog/PowerBlock"
+* This device has to me attached with an Raspberry Pi with already installed PowerBlock sources. PowerBlock sources were developed by third parties and adicional information can be find direct on this repository "https://github.com/petrockblog/PowerBlock"
 
-* This sources controls shutdown command and inform the PowerController device when Linux is already started through two Raspberry GPIO pins. To install it in your Raspberry Pi execute the following commands on Raspi bash.
+* PowerBlock sources invoke shutdown linux command and inform the PowerController device when Linux is already started through two Raspberry pins (GPIO 17, 18) pins 11, 12. To install it in your Raspberry Pi execute the following commands on Raspi bash.
 
 #### Bash Commands
       $ sudo apt-get update
@@ -49,7 +49,8 @@ This device was build over an Atmel AtTiny85 microcontroller. Programmed using a
 
 * 1 - atTiny85 microcontroller
 * 1 - IC 78L05 - 5V voltage regulator (TO-92)
-* 1 - LM2596 Step Down Power Module DC-DC http://www.instructables.com/id/The-Introduction-of-LM2596-Step-Down-Power-Module-/
+* 1 - LM2596 Step Down Power Module DC-DC
+"http://www.instructables.com/id/The-Introduction-of-LM2596-Step-Down-Power-Module-/"
 
 * 2 - BC548 - NPN Transistors
 
